@@ -3,27 +3,36 @@ package com.example.kruse.myapplication;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+
+    private EditText emailView;
+    private EditText passwordView;
+    private UserLoginTask loginTask = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button buttonClick = findViewById(R.id.login);
 
+        emailView = (EditText) findViewById(R.id.editUserSignIn);
+        passwordView = (EditText) findViewById(R.id.editPasswordSignIn);
+
+        Button buttonClick = findViewById(R.id.login);
         buttonClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onButtonClick();
+                attemptLogin();
             }
         });
 
-        TextView signup = findViewById(R.id.signup);
+        TextView signup = findViewById(R.id.goSignup);
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -37,10 +46,62 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void onButtonClick() {
-        TextView email = findViewById(R.id.editText2);
-        TextView password = findViewById(R.id.editText3);
-        if( email.getText().toString().equals("thib") && password.getText().toString().equals("thib") ) {
+    private void attemptLogin() {
+        if (loginTask != null) {
+            return;
+        }
+
+        emailView.setError(null);
+        passwordView.setError(null);
+
+        String email = emailView.getText().toString();
+        String password = passwordView.getText().toString();
+
+        boolean cancel = false;
+        View focusView = null;
+
+        if (TextUtils.isEmpty(password) || !isPasswordValid(password)) {
+            passwordView.setError(getString(R.string.error_invalid_password));
+            focusView = passwordView;
+            cancel = true;
+        }
+
+        // Check for a valid email address.
+        if (TextUtils.isEmpty(email)) {
+            emailView.setError(getString(R.string.error_field_required));
+            focusView = emailView;
+            cancel = true;
+        } else if (!isEmailValid(email)) {
+            emailView.setError(getString(R.string.error_invalid_email));
+            focusView = emailView;
+            cancel = true;
+        }
+
+        if (cancel) {
+            // There was an error; don't attempt login and focus the first
+            // form field with an error.
+            focusView.requestFocus();
+        } else {
+            // Show a progress spinner, and kick off a background task to
+            // perform the user login attempt.
+            /*showProgress(true);
+            loginTask = new UserLoginTask(email, password, this);
+            loginTask.execute((Void) null);*/
+            checkLoginInformations();
+        }
+    }
+
+    private boolean isEmailValid(String email) {
+        return true;
+        //return email.contains("@");
+    }
+
+    private boolean isPasswordValid(String password) {
+        return password.length() > 2;
+    }
+
+    private void checkLoginInformations() {
+        if( emailView.getText().toString().equals("thib") && passwordView.getText().toString().equals("thib") ) {
             Intent intent = new Intent(this, Chat.class);
             startActivity(intent);
         } else {

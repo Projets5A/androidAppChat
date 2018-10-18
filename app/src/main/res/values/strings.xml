@@ -2,4 +2,10 @@
     <string name="app_name">Chat With Me</string>
     <string name="title_activity_chat">Chat</string>
     <string name="title_activity_profile">ProfileActivity</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="error_not_same_password">The two passwords are not the same</string>
+    <string name="error_pseudo_empty">Enter a pseudo</string>
 </resources>

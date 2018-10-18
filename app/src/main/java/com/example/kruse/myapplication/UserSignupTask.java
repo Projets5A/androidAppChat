@@ -24,7 +24,7 @@ public class UserSignupTask extends AsyncTask<Void, Void, Boolean> {
     protected Boolean doInBackground(Void... params) {
         int responseCode = 401;
         try {
-            String myUrl = "http://localhost:3000/createUser?email=" + mEmail + "?pseudo=" + mPseudo + "?password=" + mPassword;
+            String myUrl = "http://appandroidserverjs.us-east-2.elasticbeanstalk.com/createUser?email=" + mEmail + "?pseudo=" + mPseudo + "?password=" + mPassword;
             URL url = new URL(myUrl);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             responseCode = urlConnection.getResponseCode();

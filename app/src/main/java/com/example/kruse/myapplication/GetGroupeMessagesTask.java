@@ -11,7 +11,7 @@ public class GetGroupeMessagesTask extends AsyncTask<Void, Void, Boolean> {
     protected Boolean doInBackground(Void... params) {
         int responseCode = 401;
         try {
-            String myUrl = "http://localhost:3000/getGroupeMessages";
+            String myUrl = "http://appandroidserverjs.us-east-2.elasticbeanstalk.com/getGroupeMessages";
             URL url = new URL(myUrl);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             responseCode = urlConnection.getResponseCode();

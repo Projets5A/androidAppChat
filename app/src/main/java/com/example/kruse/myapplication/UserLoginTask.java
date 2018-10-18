@@ -21,7 +21,7 @@ public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
     protected Boolean doInBackground(Void... params) {
         int responseCode = 401;
         try {
-            String myUrl = "https://training.loicortola.com/chat-rest/1.0/connect/" + mPseudo + "/" + mPassword;
+            String myUrl = "http://appandroidserverjs.us-east-2.elasticbeanstalk.com/signIn/" + mPseudo + "/" + mPassword;
             URL url = new URL(myUrl);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             responseCode = urlConnection.getResponseCode();
