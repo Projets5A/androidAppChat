@@ -14,13 +14,20 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Chat extends AppCompatActivity {
+public class Chat extends AppCompatActivity implements OnMessagePostListener {
+
+    private TextView messageView;
+    private PostGroupeMessagesTask postMessageTask = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         Button buttonProfile = findViewById(R.id.profile);
+        Button buttonWriteMessage = findViewById(R.id.WriteMessage);
+
+        messageView = findViewById(R.id.messageChat);
+
 
         buttonProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -29,10 +36,20 @@ public class Chat extends AppCompatActivity {
             }
         });
 
+        buttonWriteMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onButtonWriteMessageClick();
+            }
+        });
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view_id);
 
         GetGroupeMessagesTask getGroupMessages = new GetGroupeMessagesTask();
         getGroupMessages.execute();
+
+
+
 
         List<String> messages = new ArrayList<>();
 
@@ -56,6 +73,17 @@ public class Chat extends AppCompatActivity {
 
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
+    }
+
+    private void onButtonWriteMessageClick() {
+        PostGroupeMessagesTask postGroupMessages = new PostGroupeMessagesTask();
+        postGroupMessages.execute();
+    }
+
+    @Override
+    public void postMessage(Boolean success) {
+
+
     }
 
 }

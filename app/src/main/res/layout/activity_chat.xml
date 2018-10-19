@@ -8,13 +8,15 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_id"
-        android:layout_width="383dp"
-        android:layout_height="439dp"
-        android:layout_marginTop="72dp"
+        android:layout_width="339dp"
+        android:layout_height="353dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"></android.support.v7.widget.RecyclerView>
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="413dp"
         android:layout_height="69dp"
         android:layout_marginStart="5dp"
@@ -77,5 +79,35 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
+
+    <EditText
+        android:id="@+id/messageChat"
+        android:layout_width="296dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="396dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:inputType="textLongMessage|textPersonName"
+        android:hint="@string/placeholer_chat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.291"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <Button
+        android:id="@+id/WriteMessage"
+        android:layout_width="42dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="464dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/roundedbutton"
+        android:text="Send"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

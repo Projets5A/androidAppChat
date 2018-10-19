@@ -8,4 +8,5 @@
     <string name="error_field_required">This field is required</string>
     <string name="error_not_same_password">The two passwords are not the same</string>
     <string name="error_pseudo_empty">Enter a pseudo</string>
+    <string name="placeholer_chat">Write a message</string>
 </resources>
