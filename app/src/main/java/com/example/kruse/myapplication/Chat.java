@@ -18,15 +18,19 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener {
 
     private TextView messageView;
     private PostGroupeMessagesTask postMessageTask = null;
+    private String message;
+    private String author;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        author=getIntent().getStringExtra("author");
         Button buttonProfile = findViewById(R.id.profile);
         Button buttonWriteMessage = findViewById(R.id.WriteMessage);
 
         messageView = findViewById(R.id.messageChat);
+
 
 
         buttonProfile.setOnClickListener(new View.OnClickListener() {
@@ -72,16 +76,18 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener {
     private void onButtonProfileClick() {
 
         Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra("author",author);
         startActivity(intent);
     }
 
     private void onButtonWriteMessageClick() {
-        PostGroupeMessagesTask postGroupMessages = new PostGroupeMessagesTask();
+        message = messageView.getText().toString();
+        PostGroupeMessagesTask postGroupMessages = new PostGroupeMessagesTask(message, author,this);
         postGroupMessages.execute();
     }
 
     @Override
-    public void postMessage(Boolean success) {
+    public void postmessage(Boolean success) {
 
 
     }

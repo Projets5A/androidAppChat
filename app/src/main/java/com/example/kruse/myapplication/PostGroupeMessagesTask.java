@@ -10,17 +10,19 @@ import java.net.URL;
 public class PostGroupeMessagesTask extends AsyncTask<Void, Void, Boolean> {
 
     private final String mMessage;
+    private final String mAuthor;
     private final OnMessagePostListener listener;
 
-    PostGroupeMessages(String message, OnMessagePostListener listener) {
+    PostGroupeMessagesTask(String message, String author, OnMessagePostListener listener) {
         mMessage = message;
+        mAuthor = author;
         this.listener = listener;
     }
 
     protected Boolean doInBackground(Void... params) {
         int responseCode = 401;
         try {
-            String myUrl = "http://appandroidserverjs.us-east-2.elasticbeanstalk.com/PostGroupeMessages?message=" + mMessage ;
+            String myUrl = "http://appandroidserverjs.us-east-2.elasticbeanstalk.com/sendGroupeMessages?message=" + mMessage + "&author=" + mAuthor;
             URL url = new URL(myUrl);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             responseCode = urlConnection.getResponseCode();

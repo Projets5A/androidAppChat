@@ -12,10 +12,13 @@ import android.widget.TextView;
 
 public class ProfileActivity extends AppCompatActivity implements OnLoginChangeListener {
 
+    private String author;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        author=getIntent().getStringExtra("author");
         Button buttonProfile = findViewById(R.id.GroupeMessage);
 
         buttonProfile.setOnClickListener(new View.OnClickListener() {
@@ -34,7 +37,7 @@ public class ProfileActivity extends AppCompatActivity implements OnLoginChangeL
         GetProfileTask getprofiletask = new GetProfileTask(this);
 
         email.setText("Votre email est: Thibault@truc.fr");
-        pseudo.setText("Votre pseudo est: AbdelRappeur");
+        pseudo.setText("Votre pseudo est :" + author);
     }
 
     private void onButtonProfileClick() {

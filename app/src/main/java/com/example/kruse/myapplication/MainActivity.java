@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText emailView;
     private EditText passwordView;
     private UserLoginTask loginTask = null;
+    private String pseudo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         emailView = (EditText) findViewById(R.id.editUserSignIn);
         passwordView = (EditText) findViewById(R.id.editPasswordSignIn);
+
 
         Button buttonClick = findViewById(R.id.login);
         buttonClick.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void onSignUpClick() {
         Intent intent = new Intent(this, SignUp.class);
+
         startActivity(intent);
     }
 
@@ -99,8 +102,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkLoginInformations() {
         if( emailView.getText().toString().equals("thib") && passwordView.getText().toString().equals("thib") ) {
+            pseudo = emailView.getText().toString();
             Intent intent = new Intent(this, Chat.class);
-            intent.putExtra("pseudo", "");
+            intent.putExtra("author",pseudo);
             startActivity(intent);
         } else {
             Log.i("TAG", "Bad login informations!");
