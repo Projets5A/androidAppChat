@@ -15,8 +15,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText emailView;
     private EditText passwordView;
     private UserLoginTask loginTask = null;
-    private String email;
-    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,9 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
         emailView = (EditText) findViewById(R.id.editUserSignIn);
         passwordView = (EditText) findViewById(R.id.editPasswordSignIn);
-
-        email = emailView.getText().toString();
-        password = passwordView.getText().toString();
 
         Button buttonClick = findViewById(R.id.login);
         buttonClick.setOnClickListener(new View.OnClickListener() {
@@ -62,18 +57,18 @@ public class MainActivity extends AppCompatActivity {
         boolean cancel = false;
         View focusView = null;
 
-        if (TextUtils.isEmpty(password) || !isPasswordValid()) {
+        if (TextUtils.isEmpty(passwordView.getText().toString()) || !isPasswordValid(passwordView.getText().toString())) {
             passwordView.setError(getString(R.string.error_invalid_password));
             focusView = passwordView;
             cancel = true;
         }
 
         // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
+        if (TextUtils.isEmpty(emailView.getText().toString())) {
             emailView.setError(getString(R.string.error_field_required));
             focusView = emailView;
             cancel = true;
-        } else if (!isEmailValid()) {
+        } else if (!isEmailValid(emailView.getText().toString())) {
             emailView.setError(getString(R.string.error_invalid_email));
             focusView = emailView;
             cancel = true;
@@ -93,12 +88,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isEmailValid() {
+    private boolean isEmailValid(String email) {
         return true;
         //return email.contains("@");
     }
 
-    private boolean isPasswordValid() {
+    private boolean isPasswordValid(String password) {
         return password.length() > 2;
     }
 
