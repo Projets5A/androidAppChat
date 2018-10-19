@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText emailView;
     private EditText passwordView;
     private UserLoginTask loginTask = null;
+    private String email;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
         emailView = (EditText) findViewById(R.id.editUserSignIn);
         passwordView = (EditText) findViewById(R.id.editPasswordSignIn);
+
+        email = emailView.getText().toString();
+        password = passwordView.getText().toString();
 
         Button buttonClick = findViewById(R.id.login);
         buttonClick.setOnClickListener(new View.OnClickListener() {
@@ -54,13 +59,10 @@ public class MainActivity extends AppCompatActivity {
         emailView.setError(null);
         passwordView.setError(null);
 
-        String email = emailView.getText().toString();
-        String password = passwordView.getText().toString();
-
         boolean cancel = false;
         View focusView = null;
 
-        if (TextUtils.isEmpty(password) || !isPasswordValid(password)) {
+        if (TextUtils.isEmpty(password) || !isPasswordValid()) {
             passwordView.setError(getString(R.string.error_invalid_password));
             focusView = passwordView;
             cancel = true;
@@ -71,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             emailView.setError(getString(R.string.error_field_required));
             focusView = emailView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
+        } else if (!isEmailValid()) {
             emailView.setError(getString(R.string.error_invalid_email));
             focusView = emailView;
             cancel = true;
@@ -91,18 +93,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isEmailValid(String email) {
+    private boolean isEmailValid() {
         return true;
         //return email.contains("@");
     }
 
-    private boolean isPasswordValid(String password) {
+    private boolean isPasswordValid() {
         return password.length() > 2;
     }
 
     private void checkLoginInformations() {
         if( emailView.getText().toString().equals("thib") && passwordView.getText().toString().equals("thib") ) {
             Intent intent = new Intent(this, Chat.class);
+            intent.putExtra("pseudo", "");
             startActivity(intent);
         } else {
             Log.i("TAG", "Bad login informations!");

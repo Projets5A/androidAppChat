@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity implements OnLoginChangeListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,13 +31,18 @@ public class ProfileActivity extends AppCompatActivity {
         TextView email = findViewById(R.id.email);
         TextView pseudo = findViewById(R.id.pseudo);
 
+        GetProfileTask getprofiletask = new GetProfileTask(this);
+
         email.setText("Votre email est: Thibault@truc.fr");
         pseudo.setText("Votre pseudo est: AbdelRappeur");
     }
 
     private void onButtonProfileClick() {
-
         Intent intent = new Intent(this, Chat.class);
         startActivity(intent);
+    }
+
+    public void signupChange(Boolean sucesss) {
+
     }
 }
