@@ -7,13 +7,13 @@ import java.net.URL;
 
 public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-    private final String mPseudo;
-    private final String mPassword;
-    private final OnLoginChangeListener listener;
+    private final String pseudo;
+    private final String password;
+    private final OnTaskComplete listener;
 
-    UserLoginTask(String pseudo, String password, OnLoginChangeListener listener) {
-        mPseudo = pseudo;
-        mPassword = password;
+    UserLoginTask(String pseudo, String password, OnTaskComplete listener) {
+        this.pseudo = pseudo;
+        this.password = password;
         this.listener = listener;
     }
 
@@ -21,7 +21,8 @@ public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
     protected Boolean doInBackground(Void... params) {
         int responseCode = 401;
         try {
-            String myUrl = "http://appandroidserverjs.us-east-2.elasticbeanstalk.com/signIn/" + mPseudo + "/" + mPassword;
+            //TODO changer en pseudo quand le serveur est fix
+            String myUrl = "http://appandroidserverjs.us-east-2.elasticbeanstalk.com/signIn?email=" + pseudo + "&password=" + password;
             URL url = new URL(myUrl);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             responseCode = urlConnection.getResponseCode();
@@ -35,6 +36,6 @@ public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(final Boolean success) {
-        listener.signupChange(success);
+        listener.taskComplete(success);
     }
 }

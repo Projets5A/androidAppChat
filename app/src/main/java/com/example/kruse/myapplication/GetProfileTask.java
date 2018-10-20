@@ -8,9 +8,9 @@ import java.net.URL;
 
 public class GetProfileTask extends AsyncTask<Void, Void, Boolean> {
 
-    private final OnLoginChangeListener listener;
+    private final OnTaskComplete listener;
 
-    GetProfileTask(OnLoginChangeListener listener) {
+    GetProfileTask(OnTaskComplete listener) {
         this.listener = listener;
     }
 
@@ -32,7 +32,7 @@ public class GetProfileTask extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(final Boolean success) {
-        listener.signupChange(success);
+        listener.taskComplete(success);
     }
 
 }

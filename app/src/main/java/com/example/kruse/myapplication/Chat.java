@@ -31,8 +31,6 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener {
 
         messageView = findViewById(R.id.messageChat);
 
-
-
         buttonProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

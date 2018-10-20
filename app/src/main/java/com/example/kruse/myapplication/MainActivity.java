@@ -9,13 +9,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnTaskComplete {
+
+    //TODO faire en sorte que le chargement visuel se fasse!
 
     private EditText emailView;
     private EditText passwordView;
+    private String email;
+    private String password;
     private UserLoginTask loginTask = null;
-    private String pseudo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,16 +61,18 @@ public class MainActivity extends AppCompatActivity {
         emailView.setError(null);
         passwordView.setError(null);
 
+        email = emailView.getText().toString();
+        password = passwordView.getText().toString();
+
         boolean cancel = false;
         View focusView = null;
 
-        if (TextUtils.isEmpty(passwordView.getText().toString()) || !isPasswordValid(passwordView.getText().toString())) {
+        if (TextUtils.isEmpty(passwordView.getText().toString())) {
             passwordView.setError(getString(R.string.error_invalid_password));
             focusView = passwordView;
             cancel = true;
         }
 
-        // Check for a valid email address.
         if (TextUtils.isEmpty(emailView.getText().toString())) {
             emailView.setError(getString(R.string.error_field_required));
             focusView = emailView;
@@ -78,36 +84,28 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            /*showProgress(true);
-            loginTask = new UserLoginTask(email, password, this);
-            loginTask.execute((Void) null);*/
             checkLoginInformations();
         }
     }
 
     private boolean isEmailValid(String email) {
-        return true;
-        //return email.contains("@");
-    }
-
-    private boolean isPasswordValid(String password) {
-        return password.length() > 2;
+        return email.contains("@");
     }
 
     private void checkLoginInformations() {
-        if( emailView.getText().toString().equals("thib") && passwordView.getText().toString().equals("thib") ) {
-            pseudo = emailView.getText().toString();
+        loginTask = new UserLoginTask(email, password, this);
+        loginTask.execute((Void) null);
+    }
+
+    public void taskComplete(Boolean success) {
+        if(success) {
+            //TODO store value pseudo
             Intent intent = new Intent(this, Chat.class);
-            intent.putExtra("author",pseudo);
             startActivity(intent);
         } else {
-            Log.i("TAG", "Bad login informations!");
+            Toast.makeText(getApplicationContext(), "Account not found", Toast.LENGTH_LONG).show();
         }
     }
 }

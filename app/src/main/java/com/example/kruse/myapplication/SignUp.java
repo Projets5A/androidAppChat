@@ -1,16 +1,16 @@
 package com.example.kruse.myapplication;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class SignUp extends AppCompatActivity implements OnLoginChangeListener {
+public class SignUp extends AppCompatActivity implements OnTaskComplete {
 
     private TextView emailView;
     private TextView pseudoView;
@@ -85,15 +85,8 @@ public class SignUp extends AppCompatActivity implements OnLoginChangeListener {
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            /*showProgress(true);
-            loginTask = new UserLoginTask(email, password, this);
-            loginTask.execute((Void) null);*/
             checkSignUpInformations(email, pseudo, password);
         }
     }
@@ -107,19 +100,26 @@ public class SignUp extends AppCompatActivity implements OnLoginChangeListener {
     }
 
     private void checkSignUpInformations(String email, String pseudo, String password) {
-       /* if( email.equals("thib") && password.equals("thib") ) {
-            Intent intent = new Intent(this, Chat.class);
-            startActivity(intent);
-        } else {
-            Log.i("TAG", "Bad login informations!");
-        } */
-        Log.i("signup", email + " " + pseudo + " " + password);
         signUpTask = new UserSignupTask(email, pseudo, password, this);
         signUpTask.execute((Void) null);
     }
 
     @Override
-    public void signupChange(Boolean success) {
+    public void taskComplete(Boolean success) {
+        if(success) {
+            Toast.makeText(getApplicationContext(), "Account created ! Redirection to the login page", Toast.LENGTH_LONG).show();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent intent = new Intent(SignUp.this, MainActivity.class);
+                    startActivity(intent);
+                }
+            }, 3000);
+        } else {
+            Toast.makeText(getApplicationContext(), "Account not created, pseudo or email and password " +
+                    "already exist, please enter new informations", Toast.LENGTH_LONG).show();
+        }
 
     }
 }
