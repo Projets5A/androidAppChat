@@ -17,12 +17,12 @@ public class ProfileActivity extends AppCompatActivity implements OnTaskComplete
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         author=getIntent().getStringExtra("author");
-        Button buttonProfile = findViewById(R.id.GroupeMessage);
+        Button buttonChat = findViewById(R.id.GroupeMessage);
 
-        buttonProfile.setOnClickListener(new View.OnClickListener() {
+        buttonChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onButtonProfileClick();
+                onButtonChatClick();
             }
         });
 
@@ -38,8 +38,9 @@ public class ProfileActivity extends AppCompatActivity implements OnTaskComplete
         pseudo.setText("Votre pseudo est :" + author);
     }
 
-    private void onButtonProfileClick() {
+    private void onButtonChatClick() {
         Intent intent = new Intent(this, Chat.class);
+        intent.putExtra("EMAIL",author);
         startActivity(intent);
     }
 

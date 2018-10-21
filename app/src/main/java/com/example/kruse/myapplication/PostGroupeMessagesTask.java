@@ -22,11 +22,12 @@ public class PostGroupeMessagesTask extends AsyncTask<Void, Void, Boolean> {
     protected Boolean doInBackground(Void... params) {
         int responseCode = 401;
         try {
-            String myUrl = "http://appandroidserverjs.us-east-2.elasticbeanstalk.com/sendGroupeMessages?message=" + mMessage + "&author=" + mAuthor;
+            String myUrl = "http://appandroidserverjs.us-east-2.elasticbeanstalk.com/sendGroupMessage?message=" + mMessage + "&author=" + mAuthor;
             URL url = new URL(myUrl);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("POST");
             responseCode = urlConnection.getResponseCode();
+            Log.i("informations", mMessage + " " + mAuthor + " " + responseCode);
         } catch (IOException e) {
             e.printStackTrace();
         }

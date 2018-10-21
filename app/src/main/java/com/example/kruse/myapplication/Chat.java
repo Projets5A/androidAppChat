@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +25,8 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener, On
     private String message;
     private String author;
     private List<String> messages = new ArrayList<>();
-    private String test;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,18 +57,6 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener, On
         GetGroupeMessagesTask getGroupMessages = new GetGroupeMessagesTask(this);
         getGroupMessages.execute();
 
-
-
-
-
-
-        messages.add("Hello world");
-        messages.add("Hello world");
-        messages.add("Hello world");
-        messages.add("Hello world");
-        messages.add("Hello world");
-        messages.add("Hello world");
-
         // use a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -91,21 +83,33 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener, On
     public void postmessage(Boolean success) {
         if(success) {
             //TODO store value pseudo
-            messages.add("");
+            GetGroupeMessagesTask getGroupMessages = new GetGroupeMessagesTask(this);
+            getGroupMessages.execute();
 
-            //Intent intent = new Intent(this, Chat.class);
-            //intent.putExtra("EMAIL",email);
-           // startActivity(intent);
         } else {
             Toast.makeText(getApplicationContext(), "Message not post", Toast.LENGTH_LONG).show();
         }
-
     }
 
     @Override
-    public void getObject(Object content) {
-        test = content.toString();
-        Log.i("tag", test);
+    public void getObject(String content) {
+        String[] strArr = null;
+        try {
+            JSONArray jsonArray = new JSONArray(content);
+            strArr = new String[jsonArray.length()];
+            for (int i = 0; i < jsonArray.length(); i++) {
+                try {
+                    JSONObject obj = new JSONObject(jsonArray.getString(i));
+                    Log.i("obj", obj.toString());
+                    String author = obj.getString("author");
+                    String message = obj.getString("content");
+                    messages.add(author + ": " + message);
+                } catch (Throwable t) {
+                    Log.e("element", "Element not parsed");
+                }
+            }
+        } catch (Throwable t) {
+            Log.e("My App", "Could not parse malformed JSON: \"" + content + "\"");
+        }
     }
-
 }

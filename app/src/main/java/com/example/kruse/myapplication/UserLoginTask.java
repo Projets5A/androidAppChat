@@ -22,7 +22,7 @@ public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
         int responseCode = 401;
         try {
             //TODO changer en pseudo quand le serveur est fix
-            String myUrl = "http://appandroidserverjs.us-east-2.elasticbeanstalk.com/signIn?email=" + pseudo + "&password=" + password;
+            String myUrl = "http://appandroidserverjs.us-east-2.elasticbeanstalk.com/signIn?pseudo=" + pseudo + "&password=" + password;
             URL url = new URL(myUrl);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             responseCode = urlConnection.getResponseCode();
