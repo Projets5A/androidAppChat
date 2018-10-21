@@ -7,25 +7,28 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class GetGroupeMessagesTask extends AsyncTask<Void, Void, Boolean> {
-    protected Boolean doInBackground(Void... params) {
-        int responseCode = 401;
+public class GetGroupeMessagesTask extends AsyncTask<Void, Void, Object> {
+    private final OnGetObjectComplete listener;
+
+    public GetGroupeMessagesTask(OnGetObjectComplete listener) {
+        this.listener = listener;
+    }
+    protected Object doInBackground(Void... params) {
+        Object content = null;
         try {
             String myUrl = "http://appandroidserverjs.us-east-2.elasticbeanstalk.com/getGroupeMessages";
             URL url = new URL(myUrl);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            responseCode = urlConnection.getResponseCode();
-            Log.i("tag", "" + responseCode);
+            content = urlConnection.getContent();
+            Log.i("content", "" + content);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        boolean isConnected = responseCode == 200;
-        return isConnected;
+        return content;
     }
 
     @Override
-    protected void onPostExecute(final Boolean success) {
-        Log.i("tag", "getmessagesgroup success!");
+    protected void onPostExecute(final Object content) {
+        listener.getObject(content);
     }
 }

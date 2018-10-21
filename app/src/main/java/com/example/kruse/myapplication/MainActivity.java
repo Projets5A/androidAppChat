@@ -14,9 +14,9 @@ public class MainActivity extends AppCompatActivity implements OnTaskComplete {
 
     //TODO faire en sorte que le chargement visuel se fasse!
 
-    private EditText emailView;
+    private EditText pseudoView;
     private EditText passwordView;
-    private String email;
+    private String pseudo;
     private String password;
     private UserLoginTask loginTask = null;
 
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements OnTaskComplete {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        emailView = (EditText) findViewById(R.id.editUserSignIn);
+        pseudoView = (EditText) findViewById(R.id.editUserSignIn);
         passwordView = (EditText) findViewById(R.id.editPasswordSignIn);
 
 
@@ -57,28 +57,24 @@ public class MainActivity extends AppCompatActivity implements OnTaskComplete {
             return;
         }
 
-        emailView.setError(null);
+        pseudoView.setError(null);
         passwordView.setError(null);
 
-        email = emailView.getText().toString();
+        pseudo = pseudoView.getText().toString();
         password = passwordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
 
         if (TextUtils.isEmpty(passwordView.getText().toString())) {
-            passwordView.setError(getString(R.string.error_invalid_password));
+            passwordView.setError(getString(R.string.error_field_required));
             focusView = passwordView;
             cancel = true;
         }
 
-        if (TextUtils.isEmpty(emailView.getText().toString())) {
-            emailView.setError(getString(R.string.error_field_required));
-            focusView = emailView;
-            cancel = true;
-        } else if (!isEmailValid(emailView.getText().toString())) {
-            emailView.setError(getString(R.string.error_invalid_email));
-            focusView = emailView;
+        if (TextUtils.isEmpty(pseudoView.getText().toString())) {
+            pseudoView.setError(getString(R.string.error_field_required));
+            focusView = pseudoView;
             cancel = true;
         }
 
@@ -89,12 +85,8 @@ public class MainActivity extends AppCompatActivity implements OnTaskComplete {
         }
     }
 
-    private boolean isEmailValid(String email) {
-        return email.contains("@");
-    }
-
     private void checkLoginInformations() {
-        loginTask = new UserLoginTask(email, password, this);
+        loginTask = new UserLoginTask(pseudo, password, this);
         loginTask.execute((Void) null);
     }
 
@@ -102,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements OnTaskComplete {
         if(success) {
             //TODO store value pseudo
             Intent intent = new Intent(this, Chat.class);
-            intent.putExtra("EMAIL",email);
+            intent.putExtra("EMAIL", pseudo);
             startActivity(intent);
         } else {
             Toast.makeText(getApplicationContext(), "Account not found", Toast.LENGTH_LONG).show();

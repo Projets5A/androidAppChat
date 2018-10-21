@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Chat">
@@ -88,7 +89,7 @@
         android:layout_marginTop="396dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:inputType="textLongMessage|textPersonName"
+        android:inputType="textLongMessage|textPersonName|textAutoCorrect"
         android:hint="@string/placeholer_chat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.291"

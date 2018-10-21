@@ -25,12 +25,13 @@ public class PostGroupeMessagesTask extends AsyncTask<Void, Void, Boolean> {
             String myUrl = "http://appandroidserverjs.us-east-2.elasticbeanstalk.com/sendGroupeMessages?message=" + mMessage + "&author=" + mAuthor;
             URL url = new URL(myUrl);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("POST");
             responseCode = urlConnection.getResponseCode();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        boolean isConnected = responseCode == 200;
+        boolean isConnected = responseCode == 201;
         return isConnected;
     }
 

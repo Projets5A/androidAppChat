@@ -10,16 +10,19 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Chat extends AppCompatActivity implements OnMessagePostListener {
+public class Chat extends AppCompatActivity implements OnMessagePostListener, OnGetObjectComplete {
 
     private TextView messageView;
     private PostGroupeMessagesTask postMessageTask = null;
     private String message;
     private String author;
+    private List<String> messages = new ArrayList<>();
+    private String test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +50,13 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view_id);
 
-        GetGroupeMessagesTask getGroupMessages = new GetGroupeMessagesTask();
+        GetGroupeMessagesTask getGroupMessages = new GetGroupeMessagesTask(this);
         getGroupMessages.execute();
 
 
 
 
-        List<String> messages = new ArrayList<>();
+
 
         messages.add("Hello world");
         messages.add("Hello world");
@@ -86,8 +89,23 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener {
 
     @Override
     public void postmessage(Boolean success) {
+        if(success) {
+            //TODO store value pseudo
+            messages.add("");
 
+            //Intent intent = new Intent(this, Chat.class);
+            //intent.putExtra("EMAIL",email);
+           // startActivity(intent);
+        } else {
+            Toast.makeText(getApplicationContext(), "Message not post", Toast.LENGTH_LONG).show();
+        }
 
+    }
+
+    @Override
+    public void getObject(Object content) {
+        test = content.toString();
+        Log.i("tag", test);
     }
 
 }
