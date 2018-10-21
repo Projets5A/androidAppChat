@@ -1,5 +1,6 @@
 package com.example.kruse.myapplication;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,7 +8,10 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,10 +38,57 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener, On
         setContentView(R.layout.activity_chat);
         author=getIntent().getStringExtra("EMAIL");
         Button buttonProfile = findViewById(R.id.profile);
-        Button buttonWriteMessage = findViewById(R.id.WriteMessage);
+        final Button buttonWriteMessage = findViewById(R.id.WriteMessage);
 
         messageView = findViewById(R.id.messageChat);
 
+        messageView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                messageView.setTranslationY(-550f);
+                buttonWriteMessage.setTranslationY(-550f);
+                return false;
+            }
+        });
+
+        messageView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+
+                if(keyEvent != null&& (keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)){
+                    InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    in.hideSoftInputFromWindow(messageView.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+
+                messageView.setTranslationY(0f);
+                buttonWriteMessage.setTranslationY(0f);
+                return false;
+            }
+        });
+
+
+      /*  buttonWriteMessage.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                buttonWriteMessage.setTranslationY(-550f);
+                return false;
+            }
+        });
+
+        buttonWriteMessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+
+                if(keyEvent != null&& (keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)){
+                    InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    in.hideSoftInputFromWindow(buttonWriteMessage.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+
+                buttonWriteMessage.setTranslationY(0f);
+                return false;
+            }
+        });
+ */
         buttonProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,6 +141,8 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener, On
             Toast.makeText(getApplicationContext(), "Message not post", Toast.LENGTH_LONG).show();
         }
     }
+
+
 
     @Override
     public void getObject(String content) {
