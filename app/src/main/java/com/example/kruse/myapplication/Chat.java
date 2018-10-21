@@ -25,7 +25,7 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        author=getIntent().getStringExtra("author");
+        author=getIntent().getStringExtra("EMAIL");
         Button buttonProfile = findViewById(R.id.profile);
         Button buttonWriteMessage = findViewById(R.id.WriteMessage);
 

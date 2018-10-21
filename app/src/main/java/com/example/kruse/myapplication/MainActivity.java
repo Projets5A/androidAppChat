@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -103,9 +102,11 @@ public class MainActivity extends AppCompatActivity implements OnTaskComplete {
         if(success) {
             //TODO store value pseudo
             Intent intent = new Intent(this, Chat.class);
+            intent.putExtra("EMAIL",email);
             startActivity(intent);
         } else {
             Toast.makeText(getApplicationContext(), "Account not found", Toast.LENGTH_LONG).show();
         }
+
     }
 }
