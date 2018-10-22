@@ -32,8 +32,7 @@ public class GetGroupeMessagesTask extends AsyncTask<Void, Void, String> {
             while ((line = reader.readLine()) != null) {
                 builder.append(line + "\n");
             }
-            content =  builder.toString();
-
+            content = builder.toString();
 
             Log.i("content", "" +  builder.toString());
         } catch (IOException e) {

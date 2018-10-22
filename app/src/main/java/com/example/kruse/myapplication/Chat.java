@@ -146,10 +146,9 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener, On
 
     @Override
     public void getObject(String content) {
-        String[] strArr = null;
         try {
             JSONArray jsonArray = new JSONArray(content);
-            strArr = new String[jsonArray.length()];
+            List<String> messages = new ArrayList<>();
             for (int i = 0; i < jsonArray.length(); i++) {
                 try {
                     JSONObject obj = new JSONObject(jsonArray.getString(i));
@@ -158,7 +157,7 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener, On
                     String message = obj.getString("content");
                     messages.add(author + ": " + message);
                 } catch (Throwable t) {
-                    Log.e("element", "Element not parsed");
+                    Log.e("element", "Error : Element not parsed");
                 }
             }
         } catch (Throwable t) {
