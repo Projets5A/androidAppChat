@@ -66,29 +66,6 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener, On
             }
         });
 
-
-      /*  buttonWriteMessage.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                buttonWriteMessage.setTranslationY(-550f);
-                return false;
-            }
-        });
-
-        buttonWriteMessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-
-                if(keyEvent != null&& (keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)){
-                    InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    in.hideSoftInputFromWindow(buttonWriteMessage.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                }
-
-                buttonWriteMessage.setTranslationY(0f);
-                return false;
-            }
-        });
- */
         buttonProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
