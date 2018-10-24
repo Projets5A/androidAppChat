@@ -135,11 +135,9 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener, On
     public void getObject(String content) {
         try {
             JSONArray jsonArray = new JSONArray(content);
-            List<String> messages = new ArrayList<>();
             for (int i = 0; i < jsonArray.length(); i++) {
                 try {
                     JSONObject obj = new JSONObject(jsonArray.getString(i));
-                    Log.i("obj", obj.toString());
                     String author = obj.getString("author");
                     String message = obj.getString("content");
                     messages.add(author + ": " + message);
