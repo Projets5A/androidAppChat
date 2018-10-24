@@ -1,6 +1,7 @@
 package com.example.kruse.myapplication;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +15,7 @@ import org.json.JSONObject;
 
 public class ProfileActivity extends AppCompatActivity implements OnGetObjectComplete {
 
-    private String author;
+    private String pseudo;
     private TextView emailView;
     private TextView pseudoView;
     private TextView statutView;
@@ -23,7 +24,9 @@ public class ProfileActivity extends AppCompatActivity implements OnGetObjectCom
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        author=getIntent().getStringExtra("author");
+        SharedPreferences prefs = this.getSharedPreferences(
+                "account", this.MODE_PRIVATE);
+        pseudo = prefs.getString("account.pseudo", null);
         Button buttonChat = findViewById(R.id.GroupeMessage);
 
         buttonChat.setOnClickListener(new View.OnClickListener() {
@@ -40,26 +43,23 @@ public class ProfileActivity extends AppCompatActivity implements OnGetObjectCom
         pseudoView = findViewById(R.id.pseudoProfile);
         statutView = findViewById(R.id.statusProfile);
 
-        GetProfileTask getprofiletask = new GetProfileTask(author, this);
+        GetProfileTask getprofiletask = new GetProfileTask(pseudo, this);
         getprofiletask.execute();
     }
 
     private void onButtonChatClick() {
         Intent intent = new Intent(this, Chat.class);
-        intent.putExtra("EMAIL",author);
-
         startActivity(intent);
     }
 
     public void getObject(String profile) {
-        Log.i("profile", profile);
         try {
             JSONObject obj = new JSONObject(profile);
             String email = obj.getString("email");
             String pseudo = obj.getString("pseudo");
 
-            emailView.setText("Votre email est: " + email);
-            pseudoView.setText("Votre pseudo est :" + pseudo);
+            emailView.setText(email);
+            pseudoView.setText(pseudo);
             if(obj.getString("connected").equals("true")) {
                 statutView.setTextColor(Color.BLUE);
                 statutView.setText("Connected");

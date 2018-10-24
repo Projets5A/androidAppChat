@@ -1,24 +1,25 @@
 package com.example.kruse.myapplication;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements OnTaskComplete {
-
-    //TODO faire en sorte que le chargement visuel se fasse!
 
     private EditText pseudoView;
     private EditText passwordView;
     private String pseudo;
     private String password;
     private UserLoginTask loginTask = null;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements OnTaskComplete {
 
         pseudoView = (EditText) findViewById(R.id.editUserSignIn);
         passwordView = (EditText) findViewById(R.id.editPasswordSignIn);
-
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         Button buttonClick = findViewById(R.id.login);
         buttonClick.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements OnTaskComplete {
 
     private void onSignUpClick() {
         Intent intent = new Intent(this, SignUp.class);
-
         startActivity(intent);
     }
 
@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements OnTaskComplete {
             return;
         }
 
+        progressBar.setVisibility(View.VISIBLE);
         pseudoView.setError(null);
         passwordView.setError(null);
 
@@ -91,14 +92,16 @@ public class MainActivity extends AppCompatActivity implements OnTaskComplete {
     }
 
     public void taskComplete(Boolean success) {
+        progressBar.setVisibility(View.INVISIBLE);
         if(success) {
             //TODO store value pseudo
             Intent intent = new Intent(this, Chat.class);
-            intent.putExtra("EMAIL", pseudo);
+            SharedPreferences prefs = this.getSharedPreferences(
+                    "account", this.MODE_PRIVATE);
+            prefs.edit().putString("account.pseudo", pseudo).apply();
             startActivity(intent);
         } else {
             Toast.makeText(getApplicationContext(), "Account not found", Toast.LENGTH_LONG).show();
         }
-
     }
 }

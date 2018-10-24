@@ -8,32 +8,26 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class GetProfileTask extends AsyncTask<Void, Void, String> {
+public class GetUsersTask extends AsyncTask<Void, Void, String> {
 
     private final OnGetObjectComplete listener;
-    private final String pseudo;
 
-    GetProfileTask(String pseudo, OnGetObjectComplete listener) {
+    GetUsersTask(OnGetObjectComplete listener) {
         this.listener = listener;
-        this.pseudo = pseudo;
     }
 
     @Override
     protected String doInBackground(Void... params) {
-        int responseCode;
         InputStream contentStream;
         String content = null;
         try {
-            String myUrl = "http://appandroidserverjs.us-east-2.elasticbeanstalk.com/getUserInfos?pseudo=" + pseudo;
+            String myUrl = "http://appandroidserverjs.us-east-2.elasticbeanstalk.com/getUsers";
             URL url = new URL(myUrl);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            responseCode = urlConnection.getResponseCode();
-            if(responseCode == 200) {
-                contentStream = urlConnection.getInputStream();
-                StringBuilder builder = new StringBuilder();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(contentStream));
-                content =  builder.append(reader.readLine()).toString();
-            }
+            contentStream = urlConnection.getInputStream();
+            StringBuilder builder = new StringBuilder();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(contentStream));
+            content =  builder.append(reader.readLine()).toString();
         } catch (IOException e) {
             e.printStackTrace();
         }

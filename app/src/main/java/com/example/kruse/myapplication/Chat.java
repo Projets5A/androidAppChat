@@ -2,6 +2,7 @@ package com.example.kruse.myapplication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -30,15 +31,18 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener, On
     private String author;
     private List<String> messages = new ArrayList<>();
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        author=getIntent().getStringExtra("EMAIL");
-        Button buttonProfile = findViewById(R.id.profile);
+
+        SharedPreferences prefs = this.getSharedPreferences(
+                "account", this.MODE_PRIVATE);
+        author = prefs.getString("account.pseudo", null);
+
+        final Button buttonProfile = findViewById(R.id.profile);
         final Button buttonWriteMessage = findViewById(R.id.WriteMessage);
+        final Button buttonPrivateChat = findViewById(R.id.privateChat);
 
         messageView = findViewById(R.id.messageChat);
 
@@ -73,6 +77,13 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener, On
             }
         });
 
+        buttonPrivateChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onButtonPrivateChatClick();
+            }
+        });
+
         buttonWriteMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,9 +106,7 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener, On
     }
 
     private void onButtonProfileClick() {
-
         Intent intent = new Intent(this, ProfileActivity.class);
-        intent.putExtra("author",author);
         startActivity(intent);
     }
 
@@ -107,19 +116,20 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener, On
         postGroupMessages.execute();
     }
 
+    private void onButtonPrivateChatClick() {
+        Intent intent = new Intent(this, PrivateChatHub.class);
+        startActivity(intent);
+    }
+
     @Override
     public void postmessage(Boolean success) {
         if(success) {
-            //TODO store value pseudo
             GetGroupeMessagesTask getGroupMessages = new GetGroupeMessagesTask(this);
             getGroupMessages.execute();
-
         } else {
             Toast.makeText(getApplicationContext(), "Message not post", Toast.LENGTH_LONG).show();
         }
     }
-
-
 
     @Override
     public void getObject(String content) {
