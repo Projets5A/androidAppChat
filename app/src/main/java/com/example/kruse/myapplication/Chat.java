@@ -59,7 +59,7 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener, On
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
 
-                if(keyEvent != null&& (keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)){
+                if(keyEvent != null && (keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)){
                     InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     in.hideSoftInputFromWindow(messageView.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 }
