@@ -77,12 +77,10 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener, On
         getGroupMessages = new GetGroupeMessagesTask(this);
         getGroupMessages.execute();
 
-        // use a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
 
-        // specify an adapter
         adapter = new ItemAdapter(messages, this);
         recyclerView.setAdapter(adapter);
     }
@@ -140,6 +138,6 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener, On
                 getGroupMessages = new GetGroupeMessagesTask(Chat.this);
                 getGroupMessages.execute();
             }
-        }, 10000);
+        }, 2000);
     }
 }

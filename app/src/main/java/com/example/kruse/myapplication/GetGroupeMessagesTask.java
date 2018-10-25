@@ -33,8 +33,6 @@ public class GetGroupeMessagesTask extends AsyncTask<Void, Void, String> {
                 builder.append(line + "\n");
             }
             content = builder.toString();
-
-            Log.i("refresh", "chat refresh!");
         } catch (IOException e) {
             e.printStackTrace();
         }
