@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements OnTaskComplete {
             return;
         }
 
-        progressBar.setVisibility(View.VISIBLE);
         pseudoView.setError(null);
         passwordView.setError(null);
 
@@ -88,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements OnTaskComplete {
     }
 
     private void checkLoginInformations() {
+        progressBar.setVisibility(View.VISIBLE);
         loginTask = new UserLoginTask(pseudo, password, this);
         loginTask.execute((Void) null);
     }
@@ -95,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements OnTaskComplete {
     public void taskComplete(Boolean success) {
         progressBar.setVisibility(View.INVISIBLE);
         if(success) {
-            //TODO store value pseudo
             Intent intent = new Intent(this, Chat.class);
             SharedPreferences prefs = this.getSharedPreferences(
                     "account", this.MODE_PRIVATE);

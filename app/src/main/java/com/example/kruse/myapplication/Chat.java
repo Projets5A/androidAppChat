@@ -22,7 +22,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//TODO changer les titres des pages
 public class Chat extends AppCompatActivity implements OnMessagePostListener, OnGetObjectComplete {
 
     private TextView messageView;
@@ -30,6 +30,8 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener, On
     private String message;
     private String author;
     private List<String> messages = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private ItemAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,17 +93,18 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener, On
             }
         });
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view_id);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_id);
 
         GetGroupeMessagesTask getGroupMessages = new GetGroupeMessagesTask(this);
         getGroupMessages.execute();
 
         // use a linear layout manager
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
 
         // specify an adapter
-        ItemAdapter adapter = new ItemAdapter(messages, this);
+        adapter = new ItemAdapter(messages, this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -145,6 +148,7 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener, On
                     Log.e("element", "Error : Element not parsed");
                 }
             }
+            recyclerView.setAdapter(adapter);
         } catch (Throwable t) {
             Log.e("My App", "Could not parse malformed JSON: \"" + content + "\"");
         }
