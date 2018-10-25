@@ -34,7 +34,7 @@ public class GetGroupeMessagesTask extends AsyncTask<Void, Void, String> {
             }
             content = builder.toString();
 
-            Log.i("content", "" +  builder.toString());
+            Log.i("refresh", "chat refresh!");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -3,6 +3,7 @@ package com.example.kruse.myapplication;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -23,15 +24,17 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 //TODO changer les titres des pages
+//TODO peut être mettre l heure ?
+//TODO deconnexion sur la page profil ?
 public class Chat extends AppCompatActivity implements OnMessagePostListener, OnGetObjectComplete {
 
     private TextView messageView;
-    private PostGroupeMessagesTask postMessageTask = null;
     private String message;
     private String author;
     private List<String> messages = new ArrayList<>();
     private RecyclerView recyclerView;
     private ItemAdapter adapter;
+    private GetGroupeMessagesTask getGroupMessages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,30 +50,6 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener, On
         final Button buttonPrivateChat = findViewById(R.id.privateChat);
 
         messageView = findViewById(R.id.messageChat);
-
-        messageView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                messageView.setTranslationY(-550f);
-                buttonWriteMessage.setTranslationY(-550f);
-                return false;
-            }
-        });
-
-        messageView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-
-                if(keyEvent != null && (keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)){
-                    InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    in.hideSoftInputFromWindow(messageView.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-                }
-
-                messageView.setTranslationY(0f);
-                buttonWriteMessage.setTranslationY(0f);
-                return false;
-            }
-        });
 
         buttonProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,9 +72,9 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener, On
             }
         });
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_id);
+        recyclerView = findViewById(R.id.recycler_view_id);
 
-        GetGroupeMessagesTask getGroupMessages = new GetGroupeMessagesTask(this);
+        getGroupMessages = new GetGroupeMessagesTask(this);
         getGroupMessages.execute();
 
         // use a linear layout manager
@@ -138,19 +117,29 @@ public class Chat extends AppCompatActivity implements OnMessagePostListener, On
     public void getObject(String content) {
         try {
             JSONArray jsonArray = new JSONArray(content);
+            List<String> newMessages = new ArrayList<>();
             for (int i = 0; i < jsonArray.length(); i++) {
                 try {
                     JSONObject obj = new JSONObject(jsonArray.getString(i));
                     String author = obj.getString("author");
                     String message = obj.getString("content");
-                    messages.add(author + ": " + message);
+                    newMessages.add(author + ": " + message);
                 } catch (Throwable t) {
                     Log.e("element", "Error : Element not parsed");
                 }
             }
+            adapter = new ItemAdapter(newMessages, this);
             recyclerView.setAdapter(adapter);
         } catch (Throwable t) {
             Log.e("My App", "Could not parse malformed JSON: \"" + content + "\"");
         }
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                getGroupMessages = new GetGroupeMessagesTask(Chat.this);
+                getGroupMessages.execute();
+            }
+        }, 10000);
     }
 }
